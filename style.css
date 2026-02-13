@@ -1,0 +1,192 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #111;
+    color: white;
+}
+
+/* TOPO */
+.topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background-color: black;
+}
+
+.login-area {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.login-area span {
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.login-area span:hover {
+    color: gold;
+}
+
+.perfil {
+    width: 35px;
+    border-radius: 50%;
+}
+
+/* SERVIÇOS */
+.servicos {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 40px;
+    flex-wrap: wrap;
+}
+
+.card {
+    background-color: #1c1c1c;
+    border-radius: 15px;
+    overflow: hidden;
+    width: 250px;
+    text-align: center;
+    transition: 0.4s;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(255, 215, 0, 0.3);
+}
+
+.card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+button {
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    background-color: gold;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.1);
+    background-color: white;
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+/* SETA LATERAL */
+.toggle-sidebar {
+    position: fixed;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    background: gold;
+    color: black;
+    font-size: 22px;
+    padding: 15px 10px;
+    cursor: pointer;
+    border-radius: 0 10px 10px 0;
+    transition: 0.3s;
+    z-index: 1000;
+}
+
+.toggle-sidebar:hover {
+    background: white;
+}
+
+/* SIDEBAR */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -320px;
+    width: 300px;
+    height: 100%;
+    background-color: #1c1c1c;
+    padding: 20px;
+    transition: 0.4s ease;
+    overflow-y: auto;
+}
+
+.sidebar.ativa {
+    left: 0;
+}
+
+.agendamento-item {
+    background-color: #2a2a2a;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.agendamento-item button {
+    padding: 6px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.cancelar {
+    background-color: crimson;
+    color: white;
+}
+
+.editar {
+    background-color: dodgerblue;
+    color: white;
+}
+
+/* MODAIS */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0,0,0,0.8);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #1c1c1c;
+    padding: 30px;
+    border-radius: 15px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    animation: aparecer 0.3s ease;
+}
+
+.modal-content input {
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+}
+
+.fechar {
+    align-self: flex-end;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.sucesso {
+    text-align: center;
+}
+
+@keyframes aparecer {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
