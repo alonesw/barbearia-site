@@ -1,115 +1,99 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <title>Barbearia Premium</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Barbearia Premium</title>
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-    <!-- TOPO -->
-    <header class="topo">
-        <h1>Barbearia Premium</h1>
+<header class="topo">
+    <h1>Barbearia Premium</h1>
 
-        <div class="area-login">
-            <button onclick="abrirModal()">Login / Entrar</button>
-            <button onclick="logout()">Sair</button>
-        </div>
-    </header>
+    <div class="area-login">
+        <button onclick="abrirModal()">Login</button>
+        <button onclick="logout()">Sair</button>
+    </div>
+</header>
 
-    <!-- SERVIÇOS -->
-    <section class="servicos">
+<!-- AGENDAMENTOS -->
+<div id="listaAgendamentos" class="agenda-lateral"></div>
 
-        <div class="card">
-            <h2>Corte Masculino</h2>
-            <button onclick="abrirAgendamento('Corte Masculino')">
-                Agendar
-            </button>
-        </div>
+<section class="servicos">
 
-        <div class="card">
-            <h2>Barba</h2>
-            <button onclick="abrirAgendamento('Barba')">
-                Agendar
-            </button>
-        </div>
-
-        <div class="card">
-            <h2>Corte + Barba</h2>
-            <button onclick="abrirAgendamento('Corte + Barba')">
-                Agendar
-            </button>
-        </div>
-
-    </section>
-
-    <!-- MODAL LOGIN -->
-    <div id="modalLogin" class="modal">
-        <div class="modal-content">
-            <h2>Login / Cadastro</h2>
-
-            <input type="email" id="email" placeholder="Email">
-            <input type="password" id="senha" placeholder="Senha">
-
-            <button onclick="login()">Entrar</button>
-            <button onclick="registrar()">Registrar</button>
-            <button onclick="fecharModal()">Fechar</button>
-        </div>
+    <div class="card">
+        <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033" alt="Corte">
+        <h2>Corte Masculino</h2>
+        <button onclick="abrirAgendamento('Corte Masculino')">Agendar</button>
     </div>
 
-    <!-- MODAL AGENDAMENTO -->
-    <div id="modalAgendamento" class="modal">
-        <div class="modal-content">
-            <h2>Agendar Serviço</h2>
-
-            <input type="date" id="data">
-            <input type="time" id="hora">
-
-            <button onclick="confirmarAgendamento()">
-                Confirmar
-            </button>
-
-            <button onclick="fecharAgendamento()">
-                Cancelar
-            </button>
-        </div>
+    <div class="card">
+        <img src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70" alt="Barba">
+        <h2>Barba</h2>
+        <button onclick="abrirAgendamento('Barba')">Agendar</button>
     </div>
+
+    <div class="card">
+        <img src="https://images.unsplash.com/photo-1599351431402-6a8caa4d8d39" alt="Corte e Barba">
+        <h2>Corte + Barba</h2>
+        <button onclick="abrirAgendamento('Corte + Barba')">Agendar</button>
+    </div>
+
+</section>
+
+<!-- MODAL LOGIN -->
+<div id="modalLogin" class="modal">
+    <div class="modal-content">
+        <h2>Login / Cadastro</h2>
+        <input type="email" id="email" placeholder="Email">
+        <input type="password" id="senha" placeholder="Senha">
+        <button onclick="login()">Entrar</button>
+        <button onclick="registrar()">Registrar</button>
+        <button onclick="fecharModal()">Fechar</button>
+    </div>
+</div>
+
+<!-- MODAL AGENDAMENTO -->
+<div id="modalAgendamento" class="modal">
+    <div class="modal-content">
+        <h2>Agendar Serviço</h2>
+        <input type="date" id="data">
+        <input type="time" id="hora">
+        <button onclick="confirmarAgendamento()">Confirmar</button>
+        <button onclick="fecharAgendamento()">Cancelar</button>
+    </div>
+</div>
 
 <script>
-    // =========================
-    // CONTROLE DOS MODAIS
-    // =========================
+let servicoSelecionado = "";
 
-    let servicoSelecionado = "";
+function abrirModal() {
+    document.getElementById("modalLogin").style.display = "flex";
+}
 
-    function abrirModal() {
-        document.getElementById("modalLogin").style.display = "flex";
-    }
+function fecharModal() {
+    document.getElementById("modalLogin").style.display = "none";
+}
 
-    function fecharModal() {
-        document.getElementById("modalLogin").style.display = "none";
-    }
+function abrirAgendamento(servico) {
+    servicoSelecionado = servico;
+    document.getElementById("modalAgendamento").style.display = "flex";
+}
 
-    function abrirAgendamento(servico) {
-        servicoSelecionado = servico;
-        document.getElementById("modalAgendamento").style.display = "flex";
-    }
+function fecharAgendamento() {
+    document.getElementById("modalAgendamento").style.display = "none";
+}
 
-    function fecharAgendamento() {
-        document.getElementById("modalAgendamento").style.display = "none";
-    }
+function confirmarAgendamento() {
+    const data = document.getElementById("data").value;
+    const hora = document.getElementById("hora").value;
 
-    function confirmarAgendamento() {
-        const data = document.getElementById("data").value;
-        const hora = document.getElementById("hora").value;
-
-        salvarAgendamento(servicoSelecionado, data, hora);
-
-        fecharAgendamento();
-    }
+    salvarAgendamento(servicoSelecionado, data, hora);
+    fecharAgendamento();
+}
 </script>
 
-<!-- 🔥 FIREBASE -->
 <script type="module" src="script.js"></script>
 
 </body>
