@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Barbearia Estilo Fino</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topo">
+    <div class="logo">
+        <h1>Barbearia Estilo Fino</h1>
+    </div>
+
+    <div class="login-area">
+        <span id="loginText">Entrar</span>
+        <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="perfil">
+    </div>
+</header>
+
+<section class="servicos">
+    <div class="card">
+        <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033">
+        <h2>Corte Clássico</h2>
+        <button class="agendar">Agendar</button>
+    </div>
+
+    <div class="card">
+        <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a">
+        <h2>Barba Completa</h2>
+        <button class="agendar">Agendar</button>
+    </div>
+
+    <div class="card">
+        <img src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70">
+        <h2>Degradê Moderno</h2>
+        <button class="agendar">Agendar</button>
+    </div>
+</section>
+
+<!-- SETA LATERAL -->
+<div class="toggle-sidebar" id="toggleSidebar">❯</div>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+    <h2>Meus Agendamentos</h2>
+    <div id="listaAgendamentos"></div>
+</div>
+
+<!-- MODAL LOGIN -->
+<div class="modal" id="modalLogin">
+    <div class="modal-content">
+        <span class="fechar" id="fecharLogin">×</span>
+        <h2>Login</h2>
+        <input type="text" id="usuario" placeholder="Usuário">
+        <input type="password" id="senha" placeholder="Senha">
+        <button id="btnLogin">Entrar</button>
+    </div>
+</div>
+
+<!-- MODAL AGENDAMENTO -->
+<div class="modal" id="modalAgendamento">
+    <div class="modal-content">
+        <span class="fechar" id="fecharAgendamento">×</span>
+        <h2>Agendar Serviço</h2>
+        <input type="date" id="data">
+        <input type="time" id="hora">
+        <button id="confirmarAgendamento">Confirmar</button>
+    </div>
+</div>
+
+<!-- MODAL SUCESSO -->
+<div class="modal" id="modalSucesso">
+    <div class="modal-content sucesso">
+        <h2>✅ Agendamento Realizado!</h2>
+        <button id="fecharSucesso">Fechar</button>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
