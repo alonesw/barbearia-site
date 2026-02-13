@@ -1,82 +1,116 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Barbearia Estilo Fino</title>
+    <title>Barbearia Premium</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header class="topo">
-    <div class="logo">
-        <h1>Barbearia Estilo Fino</h1>
+    <!-- TOPO -->
+    <header class="topo">
+        <h1>Barbearia Premium</h1>
+
+        <div class="area-login">
+            <button onclick="abrirModal()">Login / Entrar</button>
+            <button onclick="logout()">Sair</button>
+        </div>
+    </header>
+
+    <!-- SERVIÇOS -->
+    <section class="servicos">
+
+        <div class="card">
+            <h2>Corte Masculino</h2>
+            <button onclick="abrirAgendamento('Corte Masculino')">
+                Agendar
+            </button>
+        </div>
+
+        <div class="card">
+            <h2>Barba</h2>
+            <button onclick="abrirAgendamento('Barba')">
+                Agendar
+            </button>
+        </div>
+
+        <div class="card">
+            <h2>Corte + Barba</h2>
+            <button onclick="abrirAgendamento('Corte + Barba')">
+                Agendar
+            </button>
+        </div>
+
+    </section>
+
+    <!-- MODAL LOGIN -->
+    <div id="modalLogin" class="modal">
+        <div class="modal-content">
+            <h2>Login / Cadastro</h2>
+
+            <input type="email" id="email" placeholder="Email">
+            <input type="password" id="senha" placeholder="Senha">
+
+            <button onclick="login()">Entrar</button>
+            <button onclick="registrar()">Registrar</button>
+            <button onclick="fecharModal()">Fechar</button>
+        </div>
     </div>
 
-    <div class="login-area">
-        <span id="loginText">Entrar</span>
-        <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="perfil">
+    <!-- MODAL AGENDAMENTO -->
+    <div id="modalAgendamento" class="modal">
+        <div class="modal-content">
+            <h2>Agendar Serviço</h2>
+
+            <input type="date" id="data">
+            <input type="time" id="hora">
+
+            <button onclick="confirmarAgendamento()">
+                Confirmar
+            </button>
+
+            <button onclick="fecharAgendamento()">
+                Cancelar
+            </button>
+        </div>
     </div>
-</header>
 
-<section class="servicos">
-    <div class="card">
-        <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033">
-        <h2>Corte Clássico</h2>
-        <button class="agendar">Agendar</button>
-    </div>
+<script>
+    // =========================
+    // CONTROLE DOS MODAIS
+    // =========================
 
-    <div class="card">
-        <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a">
-        <h2>Barba Completa</h2>
-        <button class="agendar">Agendar</button>
-    </div>
+    let servicoSelecionado = "";
 
-    <div class="card">
-        <img src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70">
-        <h2>Degradê Moderno</h2>
-        <button class="agendar">Agendar</button>
-    </div>
-</section>
+    function abrirModal() {
+        document.getElementById("modalLogin").style.display = "flex";
+    }
 
-<!-- SETA LATERAL -->
-<div class="toggle-sidebar" id="toggleSidebar">❯</div>
+    function fecharModal() {
+        document.getElementById("modalLogin").style.display = "none";
+    }
 
-<!-- SIDEBAR -->
-<div class="sidebar" id="sidebar">
-    <h2>Meus Agendamentos</h2>
-    <div id="listaAgendamentos"></div>
-</div>
+    function abrirAgendamento(servico) {
+        servicoSelecionado = servico;
+        document.getElementById("modalAgendamento").style.display = "flex";
+    }
 
-<!-- MODAL LOGIN -->
-<div class="modal" id="modalLogin">
-    <div class="modal-content">
-        <span class="fechar" id="fecharLogin">×</span>
-        <h2>Login</h2>
-        <input type="text" id="usuario" placeholder="Usuário">
-        <input type="password" id="senha" placeholder="Senha">
-        <button id="btnLogin">Entrar</button>
-    </div>
-</div>
+    function fecharAgendamento() {
+        document.getElementById("modalAgendamento").style.display = "none";
+    }
 
-<!-- MODAL AGENDAMENTO -->
-<div class="modal" id="modalAgendamento">
-    <div class="modal-content">
-        <span class="fechar" id="fecharAgendamento">×</span>
-        <h2>Agendar Serviço</h2>
-        <input type="date" id="data">
-        <input type="time" id="hora">
-        <button id="confirmarAgendamento">Confirmar</button>
-    </div>
-</div>
+    function confirmarAgendamento() {
+        const data = document.getElementById("data").value;
+        const hora = document.getElementById("hora").value;
 
-<!-- MODAL SUCESSO -->
-<div class="modal" id="modalSucesso">
-    <div class="modal-content sucesso">
-        <h2>✅ Agendamento Realizado!</h2>
-        <button id="fecharSucesso">Fechar</button>
-    </div>
-</div>
+        salvarAgendamento(servicoSelecionado, data, hora);
 
+        fecharAgendamento();
+    }
+</script>
+
+<!-- 🔥 FIREBASE -->
 <script type="module" src="script.js"></script>
+
 </body>
 </html>
