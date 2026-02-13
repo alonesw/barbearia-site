@@ -1,123 +1,103 @@
-let logado = false;
-let agendamentos = [];
-let servicoSelecionado = "";
+// 🔥 IMPORTAÇÕES DO FIREBASE (CDN)
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } 
+from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, collection, addDoc } 
+from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-const modalLogin = document.getElementById("modalLogin");
-const modalAgendamento = document.getElementById("modalAgendamento");
-const modalSucesso = document.getElementById("modalSucesso");
+// 🔥 CONFIG DO SEU PROJETO
+const firebaseConfig = {
+  apiKey: "AIzaSyCDh3qhr32hVR1pdtndXRJ-7EEgSh6J15Q",
+  authDomain: "barbearia-site-a8f97.firebaseapp.com",
+  projectId: "barbearia-site-a8f97",
+  storageBucket: "barbearia-site-a8f97.firebasestorage.app",
+  messagingSenderId: "426142172316",
+  appId: "1:426142172316:web:7c5ad6c2147b40b1a21959",
+  measurementId: "G-DLG7KEP94V"
+};
 
-const loginText = document.getElementById("loginText");
-const fecharLogin = document.getElementById("fecharLogin");
-const fecharAgendamento = document.getElementById("fecharAgendamento");
-const fecharSucesso = document.getElementById("fecharSucesso");
+// 🔥 INICIALIZA FIREBASE
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-const btnLogin = document.getElementById("btnLogin");
-const botoesAgendar = document.querySelectorAll(".agendar");
-const confirmarAgendamento = document.getElementById("confirmarAgendamento");
+let usuarioLogado = null;
 
-const sidebar = document.getElementById("sidebar");
-const toggleSidebar = document.getElementById("toggleSidebar");
-const listaAgendamentos = document.getElementById("listaAgendamentos");
+// ===============================
+// 🔐 CADASTRO
+// ===============================
+window.registrar = function () {
+  const email = document.getElementById("email").value;
+  const senha = document.getElementById("senha").value;
 
-/* LOGIN */
-loginText.addEventListener("click", () => {
-    modalLogin.style.display = "flex";
-});
-
-fecharLogin.addEventListener("click", () => {
-    modalLogin.style.display = "none";
-});
-
-btnLogin.addEventListener("click", () => {
-    const usuario = document.getElementById("usuario").value;
-    const senha = document.getElementById("senha").value;
-
-    if(usuario && senha) {
-        logado = true;
-        loginText.innerText = "Bem-vindo!";
-        modalLogin.style.display = "none";
-    }
-});
-
-/* AGENDAR */
-botoesAgendar.forEach(botao => {
-    botao.addEventListener("click", () => {
-
-        if(!logado) {
-            modalLogin.style.display = "flex";
-            return;
-        }
-
-        servicoSelecionado = botao.parentElement.querySelector("h2").innerText;
-        modalAgendamento.style.display = "flex";
+  createUserWithEmailAndPassword(auth, email, senha)
+    .then(() => {
+      alert("Conta criada com sucesso!");
+    })
+    .catch(error => {
+      alert("Erro: " + error.message);
     });
-});
+};
 
-confirmarAgendamento.addEventListener("click", () => {
-    const data = document.getElementById("data").value;
-    const hora = document.getElementById("hora").value;
+// ===============================
+// 🔑 LOGIN
+// ===============================
+window.login = function () {
+  const email = document.getElementById("email").value;
+  const senha = document.getElementById("senha").value;
 
-    if(data && hora) {
-        agendamentos.push({
-            servico: servicoSelecionado,
-            data,
-            hora
-        });
-
-        atualizarLista();
-        modalAgendamento.style.display = "none";
-        modalSucesso.style.display = "flex";
-    }
-});
-
-fecharAgendamento.addEventListener("click", () => {
-    modalAgendamento.style.display = "none";
-});
-
-fecharSucesso.addEventListener("click", () => {
-    modalSucesso.style.display = "none";
-});
-
-/* SIDEBAR */
-toggleSidebar.addEventListener("click", () => {
-    sidebar.classList.toggle("ativa");
-
-    if(sidebar.classList.contains("ativa")) {
-        toggleSidebar.innerHTML = "❮";
-    } else {
-        toggleSidebar.innerHTML = "❯";
-    }
-});
-
-/* ATUALIZAR LISTA */
-function atualizarLista() {
-    listaAgendamentos.innerHTML = "";
-
-    agendamentos.forEach((item, index) => {
-
-        const div = document.createElement("div");
-        div.classList.add("agendamento-item");
-
-        div.innerHTML = `
-            <strong>${item.servico}</strong>
-            <span>Data: ${item.data}</span>
-            <span>Horário: ${item.hora}</span>
-            <button class="editar">Alterar</button>
-            <button class="cancelar">Cancelar</button>
-        `;
-
-        div.querySelector(".cancelar").addEventListener("click", () => {
-            agendamentos.splice(index, 1);
-            atualizarLista();
-        });
-
-        div.querySelector(".editar").addEventListener("click", () => {
-            servicoSelecionado = item.servico;
-            agendamentos.splice(index, 1);
-            atualizarLista();
-            modalAgendamento.style.display = "flex";
-        });
-
-        listaAgendamentos.appendChild(div);
+  signInWithEmailAndPassword(auth, email, senha)
+    .then(() => {
+      alert("Login realizado com sucesso!");
+    })
+    .catch(error => {
+      alert("Erro: " + error.message);
     });
-}
+};
+
+// ===============================
+// 🚪 LOGOUT
+// ===============================
+window.logout = function () {
+  signOut(auth);
+};
+
+// ===============================
+// 👤 VERIFICA SE ESTÁ LOGADO
+// ===============================
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    usuarioLogado = user;
+    console.log("Usuário logado:", user.email);
+  } else {
+    usuarioLogado = null;
+    console.log("Nenhum usuário logado");
+  }
+});
+
+// ===============================
+// 💾 SALVAR AGENDAMENTO
+// ===============================
+window.salvarAgendamento = async function (servico, data, hora) {
+
+  if (!usuarioLogado) {
+    alert("Você precisa estar logado para agendar!");
+    return;
+  }
+
+  try {
+    await addDoc(collection(db, "agendamentos"), {
+      userId: usuarioLogado.uid,
+      email: usuarioLogado.email,
+      servico: servico,
+      data: data,
+      hora: hora,
+      criadoEm: new Date()
+    });
+
+    alert("Agendamento realizado com sucesso!");
+
+  } catch (error) {
+    alert("Erro ao salvar: " + error.message);
+  }
+};
