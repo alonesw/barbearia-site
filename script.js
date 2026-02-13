@@ -1,24 +1,47 @@
+// 🔥 IMPORTAÇÕES FIREBASE
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } 
-from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore, collection, addDoc, getDocs, query, where, deleteDoc, doc } 
-from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { 
+  getAuth, 
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword, 
+  onAuthStateChanged, 
+  signOut 
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
+import { 
+  getFirestore, 
+  collection, 
+  addDoc, 
+  getDocs, 
+  query, 
+  where, 
+  deleteDoc, 
+  doc 
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+
+// 🔥 COLE A CONFIG REAL DO SEU FIREBASE AQUI
 const firebaseConfig = {
-  apiKey: "SUA_API_KEY",
-  authDomain: "SEU_AUTH_DOMAIN",
-  projectId: "SEU_PROJECT_ID",
-  storageBucket: "SEU_STORAGE",
-  messagingSenderId: "SEU_ID",
-  appId: "SEU_APP_ID"
+  apiKey: "COLE_AQUI_SUA_API_KEY_REAL",
+  authDomain: "COLE_AQUI.firebaseapp.com",
+  projectId: "COLE_AQUI",
+  storageBucket: "COLE_AQUI.appspot.com",
+  messagingSenderId: "COLE_AQUI",
+  appId: "COLE_AQUI"
 };
 
+
+// 🔥 INICIALIZA
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
 let usuarioLogado = null;
 
+
+// =============================
+// 🔐 REGISTRAR
+// =============================
 window.registrar = async function () {
   try {
     const email = document.getElementById("email").value;
@@ -32,23 +55,35 @@ window.registrar = async function () {
   }
 };
 
+
+// =============================
+// 🔑 LOGIN
+// =============================
 window.login = async function () {
   try {
     const email = document.getElementById("email").value;
     const senha = document.getElementById("senha").value;
 
     await signInWithEmailAndPassword(auth, email, senha);
-    alert("Login realizado!");
+    alert("Login realizado com sucesso!");
     fecharModal();
   } catch (error) {
     alert(error.message);
   }
 };
 
+
+// =============================
+// 🚪 LOGOUT
+// =============================
 window.logout = function () {
   signOut(auth);
 };
 
+
+// =============================
+// 👤 VERIFICA LOGIN
+// =============================
 onAuthStateChanged(auth, (user) => {
   if (user) {
     usuarioLogado = user;
@@ -60,23 +95,38 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
+
+// =============================
+// 💾 SALVAR AGENDAMENTO
+// =============================
 window.salvarAgendamento = async function (servico, data, hora) {
+
   if (!usuarioLogado) {
     alert("Você precisa estar logado!");
     return;
   }
 
-  await addDoc(collection(db, "agendamentos"), {
-    userId: usuarioLogado.uid,
-    servico,
-    data,
-    hora
-  });
+  try {
+    await addDoc(collection(db, "agendamentos"), {
+      userId: usuarioLogado.uid,
+      servico,
+      data,
+      hora,
+      criadoEm: new Date()
+    });
 
-  carregarAgendamentos();
+    carregarAgendamentos();
+  } catch (error) {
+    alert(error.message);
+  }
 };
 
+
+// =============================
+// 📅 CARREGAR AGENDAMENTOS
+// =============================
 async function carregarAgendamentos() {
+
   const lista = document.getElementById("listaAgendamentos");
   lista.innerHTML = "<h3>Seus Agendamentos</h3>";
 
@@ -102,6 +152,10 @@ async function carregarAgendamentos() {
   });
 }
 
+
+// =============================
+// ❌ CANCELAR AGENDAMENTO
+// =============================
 window.cancelarAgendamento = async function (id) {
   await deleteDoc(doc(db, "agendamentos", id));
   carregarAgendamentos();
