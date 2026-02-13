@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Barbearia Premium</title>
 <link rel="stylesheet" href="style.css">
 </head>
@@ -10,32 +11,34 @@
 
 <header class="topo">
     <h1>Barbearia Premium</h1>
-
-    <div class="area-login">
+    <div>
         <button onclick="abrirModal()">Login</button>
         <button onclick="logout()">Sair</button>
     </div>
 </header>
 
-<!-- AGENDAMENTOS -->
-<div id="listaAgendamentos" class="agenda-lateral"></div>
+<!-- PAINEL LATERAL -->
+<div id="listaAgendamentos" class="agenda-lateral">
+    <h3>Seus Agendamentos</h3>
+    <p>Faça login para visualizar</p>
+</div>
 
 <section class="servicos">
 
     <div class="card">
-        <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033" alt="Corte">
+        <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=800&q=80">
         <h2>Corte Masculino</h2>
         <button onclick="abrirAgendamento('Corte Masculino')">Agendar</button>
     </div>
 
     <div class="card">
-        <img src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70" alt="Barba">
+        <img src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&w=800&q=80">
         <h2>Barba</h2>
         <button onclick="abrirAgendamento('Barba')">Agendar</button>
     </div>
 
     <div class="card">
-        <img src="https://images.unsplash.com/photo-1599351431402-6a8caa4d8d39" alt="Corte e Barba">
+        <img src="https://images.unsplash.com/photo-1599351431402-6a8caa4d8d39?auto=format&fit=crop&w=800&q=80">
         <h2>Corte + Barba</h2>
         <button onclick="abrirAgendamento('Corte + Barba')">Agendar</button>
     </div>
